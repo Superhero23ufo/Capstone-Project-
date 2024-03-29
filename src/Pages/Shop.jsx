@@ -1,11 +1,11 @@
 import React from "react";
-
-const Shop = () => {
-    return(
-        <div>
-
-        </div>
-    )
-}
+import Hero from "../Components/Hero/Hero";
+import Popular from "../Components/Popular/Popular";
+const Shop = () => (
+    <div>
+        <Hero />
+        <Popular/>
+    </div>
+)
 
 export default Shop;
