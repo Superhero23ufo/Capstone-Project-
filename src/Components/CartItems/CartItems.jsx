@@ -8,7 +8,7 @@ const CartItems = () =>{
     return(
         <div className="cartitems">
             <div className="cartitems-format-main">
-                <p>Product</p>
+                <p>Products</p>
                 <p>Title</p>
                 <p>Price</p>
                 <p>Quantity</p>
