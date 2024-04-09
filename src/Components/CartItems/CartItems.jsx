@@ -4,7 +4,7 @@ import { ShppContext } from "../../Context/ShopContext";
 import remove_icon from '../Asset/cart_cross_icon.png'
    
 const CartItems = () =>{
-    const {all_product,cartItems,removefromCart}= useContext(ShppContext)
+    const {getTotalCartAmount,all_product,cartItems,removefromCart}= useContext(ShppContext)
     return(
         <div className="cartitems">
             <div className="cartitems-format-main">
@@ -17,7 +17,7 @@ const CartItems = () =>{
             </div>
             <hr />
             {all_product.map((e)=>{
-                if(cartItems [e.id] > 0)
+                if(cartItems[e.id] > 0)
                 {
                     return   <div>
                     <div className="cartitems-format cartitems-format-main">
@@ -39,13 +39,27 @@ const CartItems = () =>{
                     <div>
                         <div className="cartitems-total-item">
                             <p>Subtotal</p>
-                            <p>${0}</p>
+                            <p>${getTotalCartAmount()}</p>
                         </div>
                         <hr />
                         <div className="cartitems-total-item">
                             <p>Shipping Fee</p>
                             <p>Free</p>
                         </div>
+                        <hr />
+                        <div className="cartitems-total-item">
+                            <h3>Total</h3>
+                            <h3>${getTotalCartAmount()}</h3>
+                        </div>
+                    </div>
+                    <button>Proceed to Checkout</button>
+                </div>
+                
+                <div className="caritems-promocode">
+                    <p>If you have a promo code, enter here</p>
+                    <div className="cartitems-promobox">
+                        <input type="text" placeholder="promo code" />
+                        <button>Submit</button>
                     </div>
                 </div>
             </div>
