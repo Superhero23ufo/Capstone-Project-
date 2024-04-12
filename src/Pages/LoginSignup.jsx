@@ -23,7 +23,7 @@ function LoginSignup() {
       if (Object.keys(formErrors).length === 0 && isSubmit) {
         console.log(formValues);
       }
-    }, [formErrors]);
+    }, );
     const validate = (values) => {
       const errors = {};
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
