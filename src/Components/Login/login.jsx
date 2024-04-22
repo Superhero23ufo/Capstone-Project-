@@ -1,91 +1,81 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { URL } from "../api/axios";
+import { Link } from "react-router-dom";
+import axios from "../api/axios";
 
-export default function Login({ user, setUser, token, setToken }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [successMessage, setSuccessMessage] = useState(null);
-  const [error, setError] = useState(null);
+const Login = ({token, setToken, user, setUser}) => {
+  const handleLogin = async (event) => {
+    // we will grab the username and password from the form and send it to the server
+    // wrap everything from here down in try/catch block
 
-  const navigate = useNavigate();
-
-  const submit = (ev) => {
-    ev.preventDefault();
-    login({ email, password });
-  };
-
-
-  const login = async ({ email, password }) => {
+    // use either async/await OR .then syntax
     try {
-      const response = await fetch(`${URL}/login`, {
-        method: "POST",
-        body: {
-           email,
-          password,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+      // try { fetch()} catch(er) {}
+      // fetch().then().catch()
+      const form = event.target;
+
+      const email = form.email.value;
+      const password = form.password.value;
+
+      event.preventDefault();
+
+      const {data: {token: newToken, user: newUser}} = await axios.post("/login", {
+        email,
+        password,
       });
-      const result = await response.json();
-      console.log(result);
-      if (response.ok) {
-        // window.localStorage.setItem("token", result.token);
-        setSuccessMessage("Login success");
-      } else {
-        setError("Failed to login. Please use correct password or register");
-        console.log(result);
-      }
+      console.log(newToken, newUser)
+      setToken(newToken)
+      setUser(newUser)
+      // also need to get the user and set the user using retrieved data
+      localStorage.setItem("token", newToken);
     } catch (error) {
       console.log(error);
+      setToken('')
+      localStorage.setItem('token', '')
     }
-  };
 
-  const logout = () => {
-    window.localStorage.removeItem("token");
-    setToken({});
+    // const response = await fetch(url, options)
   };
 
   return (
-    <>
-      {!token ? (
-        <div>
-          <h1>Login</h1>
-          {error && <p>{error}</p>}
-          {successMessage && <p>{successMessage}</p>}
-          <form className="form" onSubmit={submit}>
-            <label htmlFor={"email"} className="email">
-              Email address:{" "}
-              <input
-                type={"email"}
-                value={email}
-                onChange={(ev) => setEmail(ev.target.value)}
-              />
-            </label>
-            <label htmlFor={"password"} className="password">
-              Password:{" "}
-              <input
-                type={"password"}
-                value={password}
-                onChange={(ev) => setPassword(ev.target.value)}
-              />
-            </label>
-            <button disabled={!email || !password}>Login</button>
-          </form>
-          <p>Forget password?</p>
-          <button onClick={() => navigate("/forgotpassword")}>
-            Password reset
-          </button>
-          <p>Don't have an account yet?</p>
-          <button onClick={() => navigate("/register")}>Register</button>
+    <div className="container-sm">
+      <h1>Login</h1>
+
+      <form onSubmit={handleLogin}>
+        <div className="input-group mb-3">
+          <input
+            name="email"
+            type="email"
+            className="form-control"
+            placeholder="email"
+            aria-label="email"
+            aria-describedby="basic-addon2"
+          />
+          <span className="input-group-text" id="basic-addon2">
+            username
+          </span>
         </div>
-      ) : (
-        <div>
-          <h1>Logged in as {user}</h1>
-          <button onClick={logout}>Logout</button>
+        <div className="input-group mb-3">
+          <input
+            name="password"
+            type="password"
+            className="form-control"
+            placeholder="password"
+            aria-label="password"
+            aria-describedby="basic-addon2"
+          />
         </div>
-      )}
-    </>
+        <button type="submit" className="btn btn-primary">
+          Login
+        </button>
+      </form>
+      <Link
+        to="/register"
+        className="btn btn-outline-secondary btn-sm"
+        role="button"
+      >
+        Don't have an account?
+      </Link>
+    </div>
   );
-}
+};
+
+export default Login;
