@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const URL = 'https://frontend-unvu.onrender.com/api'
+export const URL = 'https://capstone-project-yszb.onrender.com/api'
 
 export default axios.create({
     baseURL: URL,

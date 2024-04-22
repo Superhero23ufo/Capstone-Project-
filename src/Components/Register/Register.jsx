@@ -19,7 +19,7 @@ export default function Register({user, setUser, token, setToken}) {
   async function Submit(email) {
     email.preventDefault();
     try {
-      const response = await fetch(`${URL}signup`, {
+      const response = await fetch(`${URL}/signup`, {
         method: "POST",
         body: JSON.stringify( {
             email:'John@gmail.com',

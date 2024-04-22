@@ -4,7 +4,7 @@ import logo from '../Asset/logo.png'
 import cart_icon from '../Asset/cart_icon.png'
 import { Link } from "react-router-dom";
 import { ShppContext } from "../../Context/ShopContext";
-const Navbar = () => {
+export default function Navigation({ token }) {
 
     const[menu, setMenu] = useState("shop");
      const {getTotalCartItems} = useContext(ShppContext);
@@ -32,5 +32,3 @@ const Navbar = () => {
     )
 }
 
-
-export default Navbar
